@@ -51,6 +51,7 @@ public class GameBoard extends JFrame implements ActionListener {
         for (int i = 0; i < TOTAL_CARDS; i++)
         {
         	/*
+        	 * 
         	 * WIP
         	 * Card card = new Card((int)(i / 2));
         	 * card.addActionListener(this);
