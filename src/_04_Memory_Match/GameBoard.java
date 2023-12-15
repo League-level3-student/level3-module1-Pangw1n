@@ -50,13 +50,10 @@ public class GameBoard extends JFrame implements ActionListener {
         //    of the Card objects to the ArrayList of Cards.
         for (int i = 0; i < TOTAL_CARDS; i++)
         {
-        	/*
-        	 * 
-        	 * WIP
-        	 * Card card = new Card((int)(i / 2));
-        	 * card.addActionListener(this);
-        	 * cards.add(card);
-        	 */
+        	int value = ((i / 2) - (i % 1)) % 13;
+        	Card card = new Card(value + 1);
+            card.addActionListener(this);
+            cards.add(card);
         }
         
         // 4. Use Collections.shuffle() method to randomize the order of
