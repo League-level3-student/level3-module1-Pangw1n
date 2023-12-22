@@ -2,6 +2,8 @@ package _08_California_Weather;
 
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 /*
  * OBJECTIVE:
  * 1. Create a program that allows the user to search for the weather
@@ -9,7 +11,7 @@ import java.util.HashMap;
  * and the Utilities class inside this project to get the temperature data
  * from a day in December 2020.
  * Example: User: Encinitas
- *          Program: Encinitas is Overcast with a tempeature of 59.01 �F
+ *          Program: Encinitas is Overcast with a temperature of 59.01 �F
  * 
  * 2. Create a way for the user to specify the weather condition and then
  * list the cities that have those conditions.
@@ -33,13 +35,17 @@ public class CaliforniaWeather {
         HashMap<String, WeatherData> weatherData = Utilities.getWeatherData();
         
         // All city keys have the first letter capitalized of each word
-        String cityName = Utilities.capitalizeWords( "National City" );
+        String cityName = Utilities.capitalizeWords( JOptionPane.showInputDialog("Search for a city, weather, or Temperature range") );
         WeatherData datum = weatherData.get(cityName);
         
         if( datum == null ) {
             System.out.println("Unable to find weather data for: " + cityName);
         } else {
-            System.out.println(cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F");
+        	String output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
+            System.out.println(output);
+            JOptionPane.showMessageDialog(null, output);
         }
     }
+    
+    
 }
