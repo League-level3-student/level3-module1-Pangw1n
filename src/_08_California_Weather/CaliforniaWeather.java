@@ -1,8 +1,14 @@
 package _08_California_Weather;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /*
  * OBJECTIVE:
@@ -29,23 +35,101 @@ import javax.swing.JOptionPane;
  * temperature, you can get a free API key at: https://openweathermap.org/api
  */
 
-public class CaliforniaWeather {
+public class CaliforniaWeather implements ActionListener {
+    JFrame frame = new JFrame();
+    JPanel panel = new JPanel();
+    JButton searchCity = new JButton();
+    JButton searchWeather = new JButton();
+    JButton searchTemp = new JButton();
+    
+    HashMap<String, WeatherData> weatherData = Utilities.getWeatherData();
     
     void start() {
-        HashMap<String, WeatherData> weatherData = Utilities.getWeatherData();
+        
+        frame.add(panel);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        panel.add(searchCity);
+        panel.add(searchWeather);
+        panel.add(searchTemp);
+        searchCity.addActionListener(this);
+        searchWeather.addActionListener(this);
+        searchTemp.addActionListener(this);
+        frame.pack();
         
         // All city keys have the first letter capitalized of each word
-        String cityName = Utilities.capitalizeWords( JOptionPane.showInputDialog("Search for a city, weather, or Temperature range") );
-        WeatherData datum = weatherData.get(cityName);
+        //String cityName = Utilities.capitalizeWords( "san diego" );
+        //WeatherData datum = weatherData.get(cityName);
         
-        if( datum == null ) {
-            System.out.println("Unable to find weather data for: " + cityName);
-        } else {
-        	String output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
-            System.out.println(output);
-            JOptionPane.showMessageDialog(null, output);
-        }
+        //if( datum == null ) {
+        //    System.out.println("Unable to find weather data for: " + cityName);
+        //} else {
+        //	String output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
+        //    System.out.println(output);
+        //    JOptionPane.showMessageDialog(null, output);
+        //}
     }
     
+    String output;
     
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		JButton buttonPressed = (JButton) arg0.getSource();
+		if (buttonPressed == searchCity)
+		{
+			String cityName = Utilities.capitalizeWords( JOptionPane.showInputDialog("Enter a city name: ") );
+	        WeatherData datum = weatherData.get(cityName);
+	        
+	        if( datum == null ) {
+	            System.out.println("Unable to find weather data for: " + cityName);
+	        } else {
+	        	output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
+	            System.out.println(output);
+	            JOptionPane.showMessageDialog(null, output);
+	        }
+		}
+		else if (buttonPressed == searchWeather)
+		{
+			String weather = Utilities.capitalizeWords( JOptionPane.showInputDialog("Enter a weather condition: ") );
+	        ArrayList<String> datum = new ArrayList<String>();
+	        for (String city : weatherData.keySet())
+	        {
+	        	if (weatherData.get(city).weatherSummary == weather)
+	        	{
+	        		datum.add(city);
+	        	}
+	        }
+	        for (String city : datum)
+	        {
+	        	System.out.print(city);
+	        }
+	        
+	        if( datum.size() == 0 ) {
+	        	output = "There are no cities with the weather: " + weather;
+	            System.out.println(output);
+	        	JOptionPane.showMessageDialog(null, output);
+	        } else if (datum.size() == 1) {
+	        	output = datum.get(0) + " is the only city with " + weather + " weather";
+	            System.out.println(output);
+	            JOptionPane.showMessageDialog(null, output);
+	        } else {
+	        	System.out.print(datum.size());
+	        	output = "";
+	        	for (int i = 0; i < datum.size(); i ++)
+	        	{
+	        		if (i != datum.size() - 1)
+	        		{
+	        			output = output + datum.get(i) + ", ";
+	        		}
+	        		else
+	        		{
+	        			output = output + datum.get(i) + " all have " + weather + " weather";
+	        		}
+        		}
+	            System.out.println(output);
+	            JOptionPane.showMessageDialog(null, output);
+	        }
+		}
+	}
 }

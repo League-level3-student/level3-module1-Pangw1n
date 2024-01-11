@@ -24,6 +24,17 @@ public class Utilities {
         return formattedCityName.trim();
     }
     
+    public static String lowerCaseWords( String cityName ) {
+        String formattedCityName = "";
+        
+        String[] cityNameWords = cityName.split(" ");
+        for( String word : cityNameWords ) {
+            formattedCityName += word.substring(0, 1).toLowerCase() + word.substring(1).toLowerCase() + ' ';
+        }
+        
+        return formattedCityName.trim();
+    }
+    
     /*
      * Use this method to get a HashMap of a California city and the
      * weather data
