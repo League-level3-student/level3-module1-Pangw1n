@@ -52,6 +52,9 @@ public class CaliforniaWeather implements ActionListener {
         panel.add(searchCity);
         panel.add(searchWeather);
         panel.add(searchTemp);
+        searchCity.setText("Search for a city");
+        searchWeather.setText("Search for a weather condition");
+        searchTemp.setText("Search for a temperature range");
         searchCity.addActionListener(this);
         searchWeather.addActionListener(this);
         searchTemp.addActionListener(this);
@@ -70,7 +73,7 @@ public class CaliforniaWeather implements ActionListener {
         //}
     }
     
-    String output;
+    //String output;
     
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
@@ -84,7 +87,7 @@ public class CaliforniaWeather implements ActionListener {
 	        if( datum == null ) {
 	            System.out.println("Unable to find weather data for: " + cityName);
 	        } else {
-	        	output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
+	        	String output = cityName + " is " + datum.weatherSummary + " with a temperature of " + datum.temperatureF + " F";
 	            System.out.println(output);
 	            JOptionPane.showMessageDialog(null, output);
 	        }
@@ -95,38 +98,69 @@ public class CaliforniaWeather implements ActionListener {
 	        ArrayList<String> datum = new ArrayList<String>();
 	        for (String city : weatherData.keySet())
 	        {
-	        	if (weatherData.get(city).weatherSummary == weather)
+	        	if (weatherData.get(city).weatherSummary.equals(weather))
 	        	{
 	        		datum.add(city);
 	        	}
 	        }
-	        for (String city : datum)
-	        {
-	        	System.out.print(city);
-	        }
 	        
 	        if( datum.size() == 0 ) {
-	        	output = "There are no cities with the weather: " + weather;
+	        	String output = "There are no cities with the weather: " + weather;
 	            System.out.println(output);
 	        	JOptionPane.showMessageDialog(null, output);
 	        } else if (datum.size() == 1) {
-	        	output = datum.get(0) + " is the only city with " + weather + " weather";
+	        	String output = datum.get(0) + " is the only city with " + weather + " weather";
 	            System.out.println(output);
 	            JOptionPane.showMessageDialog(null, output);
 	        } else {
 	        	System.out.print(datum.size());
-	        	output = "";
+	        	String output = "";
 	        	for (int i = 0; i < datum.size(); i ++)
 	        	{
-	        		if (i != datum.size() - 1)
+	        		output = output + datum.get(i) + ", ";
+	        		if (i >= 10 && i % 10 == 0)
 	        		{
-	        			output = output + datum.get(i) + ", ";
-	        		}
-	        		else
-	        		{
-	        			output = output + datum.get(i) + " all have " + weather + " weather";
+	        			output = output + "\n";
 	        		}
         		}
+        		output = output + "all have " + weather + " weather";
+	            System.out.println(output);
+	            JOptionPane.showMessageDialog(null, output);
+	        }
+		}
+		else if (buttonPressed == searchTemp)
+		{
+			int minTemp = Integer.parseInt( JOptionPane.showInputDialog("Enter a minimum temperature: ") );
+			int maxTemp = Integer.parseInt( JOptionPane.showInputDialog("Enter a maximum temperature: ") );
+	        ArrayList<String> datum = new ArrayList<String>();
+	        for (String city : weatherData.keySet())
+	        {
+	        	if (weatherData.get(city).temperatureF >= minTemp && weatherData.get(city).temperatureF <= maxTemp)
+	        	{
+	        		datum.add(city);
+	        	}
+	        }
+	        
+	        if( datum.size() == 0 ) {
+	        	String output = "There are no cities within the temperature range : " + minTemp + "-" + maxTemp;
+	            System.out.println(output);
+	        	JOptionPane.showMessageDialog(null, output);
+	        } else if (datum.size() == 1) {
+	        	String output = datum.get(0) + " is the only city within the temperature range " + minTemp + "-" + maxTemp;
+	            System.out.println(output);
+	            JOptionPane.showMessageDialog(null, output);
+	        } else {
+	        	System.out.print(datum.size());
+	        	String output = "";
+	        	for (int i = 0; i < datum.size(); i ++)
+	        	{
+	        		output = output + datum.get(i) + ", ";
+	        		if (i >= 10 && i % 10 == 0)
+	        		{
+	        			output = output + "\n";
+	        		}
+        		}
+        		output = output + "are all within the temperature range " + minTemp + "-" + maxTemp;
 	            System.out.println(output);
 	            JOptionPane.showMessageDialog(null, output);
 	        }
