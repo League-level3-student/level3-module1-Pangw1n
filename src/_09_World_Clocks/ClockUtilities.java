@@ -47,6 +47,7 @@ public class ClockUtilities {
 
         if (coordinates == null) {
             JOptionPane.showMessageDialog(null, "ERROR: Unable to find " + requestedCity);
+            return null;
         } else {
             System.out.println("Getting time zone for " + requestedCity);
             String timeZoneString = getTimeZoneFromCoordinates(coordinates);

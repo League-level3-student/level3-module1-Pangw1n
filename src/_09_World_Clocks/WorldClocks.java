@@ -108,16 +108,20 @@ public class WorldClocks implements ActionListener {
     	}
     	else if (arg0.getSource() == addCity)
     	{
-    		String city = JOptionPane.showInputDialog("Input a new city\nThe format for the city must be: city, country (abbreviated - all caps)");
-    		System.out.println(city);
+            String city = JOptionPane.showInputDialog("Input a new city\nThe format for the city must be: city, country (abbreviated - all caps)");
             TimeZone timeZone = clockUtil.getTimeZoneFromCityName(city);
+            if (timeZone == null)
+            {
+            	return;
+            }
             cities.put(city, timeZone);
 
-			Calendar c = Calendar.getInstance(cities.get(city));
-	        String month = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
-	        String dayOfWeek = c.getDisplayName( Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
-	        String dateStr = dayOfWeek + " " + month + " " + c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.YEAR);
-	        
+            Calendar c = Calendar.getInstance(cities.get(city));
+    	    String month = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
+    	    String dayOfWeek = c.getDisplayName( Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault());
+    	    String dateStr = dayOfWeek + " " + month + " " + c.get(Calendar.DAY_OF_MONTH) + " " + c.get(Calendar.YEAR);
+
+    	    System.out.println(c);
             textArea.put(city, new JTextArea());
             panel.add(textArea.get(city));
             textArea.get(city).setText(cities.get(city) + "\n" + dateStr);
